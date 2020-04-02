@@ -20,10 +20,9 @@ public class test {
             while ((inputLine = in.readLine()) != null) {
                 html.append(inputLine);
             }
-
-            //System.out.println(html.toString());
-            //System.out.println(urlConnection.getInputStream().available());
             in.close();
+            System.out.println(html.toString());
+
         }catch(Exception e) {
             System.out.println(e.toString());
         }
