@@ -20,10 +20,10 @@ SocketHook.stopHook();
 ```
 
 ### 配置hook规则
-### 修改SocketHookImpl.java中socket的基础函数内部逻辑，即可实现自定义hook规则
+### 修改SocketHookImpl.java中socket的基础函数内部逻辑，即可任意hook
 
 ### edit hook rule
-### edit the socket base function logic in SocketHookImpl.java
+### edit the socket base function impl logic in SocketHookImpl.java to hook socket
 
 ```
     @Override
