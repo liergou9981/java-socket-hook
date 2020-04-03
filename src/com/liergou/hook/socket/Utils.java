@@ -5,12 +5,12 @@ import java.lang.reflect.Method;
 public class Utils {
 
     /**
-     * 轮询父类查找反射方法
-     * @param inputClazz
-     * @param findName
-     * @param args
-     * @return
-     */
+     * @Author liergou
+     * @Description 轮询父类查找反射方法
+     * @Date 1:43 2020/4/4
+     * @Param [inputClazz, findName, args]
+     * @return java.lang.reflect.Method
+     **/
     public static Method findMethod(Class<?> inputClazz, String findName ,Class<?>[] args){
         Class<?> temp=inputClazz;
         Method tmpMethod = null;

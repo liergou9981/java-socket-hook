@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class SocketHookFactory implements SocketImplFactory
     {
         private static SocketImpl   clazz;
-        private static Boolean startHook = false;
+        private static Boolean isHook = false;
 
         /**
          * @Author liergou
@@ -29,8 +29,8 @@ public class SocketHookFactory implements SocketImplFactory
          * @Param [set]
          * @return void
          **/
-        public static void setStart(Boolean set){
-            startHook = set;
+        public static void setHook(Boolean set){
+            isHook = set;
         }
 
         /**
@@ -63,7 +63,7 @@ public class SocketHookFactory implements SocketImplFactory
 
         public SocketImpl createSocketImpl() {
 
-            if(startHook) {
+            if(isHook) {
                     try {
                         return new SocketHookImpl(clazz);
                     } catch (Exception e) {
