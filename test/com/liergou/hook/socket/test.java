@@ -1,6 +1,5 @@
 package com.liergou.hook.socket;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -21,7 +20,7 @@ public class test {
             }
             in.close();
             System.out.println(html.toString());
-            SocketHook.startHook();
+            SocketHook.stopHook();
 
         }catch(Exception e) {
             System.out.println(e.toString());
