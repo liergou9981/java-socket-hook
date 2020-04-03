@@ -2,6 +2,7 @@
 hook socks in java
 
 怎么开启scoket hook
+
 how to hook java scoket：
 ```
 SocketHook.starthook();
@@ -23,7 +24,6 @@ SocketHook.stopHook();
 edit hook rule
 edit the socket base function logic in SocketHookImpl.java
 
-such as
 ```
     @Override
     protected void connect(SocketAddress address, int timeout) throws IOException {
