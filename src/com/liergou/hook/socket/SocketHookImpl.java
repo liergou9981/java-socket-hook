@@ -7,6 +7,13 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @Author liergou
+ * @Description socket impl
+ * @Date 23:39 2020/4/2
+ * @Param
+ * @return
+ **/
 public class SocketHookImpl extends SocketImpl implements SocketOptions
 {
 
@@ -22,12 +29,18 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
     private Method getOutputStreamImpl;
     private Method availableImpl;
     private Method closeImpl;
+    private Method shutdownInputImpl;
+    private Method shutdownOutputImpl;
     private Method sendUrgentDataImpl;
 
+
     /**
-     * class init 初始化获取反射类和方法
-     * @param initSocketImpl
-     */
+     * @Author liergou
+     * @Description 初始化反射方法
+     * @Date 23:40 2020/4/2
+     * @Param [initSocketImpl]
+     * @return
+     **/
     public SocketHookImpl(SocketImpl initSocketImpl) {
 
         if ( initSocketImpl == null){
@@ -37,6 +50,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
 
         this.socketImpl = initSocketImpl;
         final Class<?>  clazz = this.socketImpl.getClass();
+        Method[] allMethod = clazz.getDeclaredMethods();
         createImpl = Utils.findMethod( clazz,"create", new Class<?>[]{ boolean.class } );
         connectHostImpl = Utils.findMethod( clazz, "connect", new Class<?>[]{ String.class, int.class } );
         connectInetAddressImpl = Utils.findMethod( clazz, "connect", new Class<?>[]{ InetAddress.class, int.class } );
@@ -48,10 +62,15 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
         getOutputStreamImpl = Utils.findMethod( clazz, "getOutputStream", new Class<?>[]{  } );
         availableImpl = Utils.findMethod( clazz, "available", new Class<?>[]{ } );
         closeImpl = Utils.findMethod( clazz, "close", new Class<?>[]{ } );
+        shutdownInputImpl = Utils.findMethod( clazz, "shutdownInput", new Class<?>[]{ } );
+        shutdownOutputImpl = Utils.findMethod( clazz, "shutdownOutput", new Class<?>[]{ } );
         sendUrgentDataImpl = Utils.findMethod( clazz, "sendUrgantData", new Class<?>[]{ int.class } );
-
     }
 
+
+    /**
+     * socket base method impl
+     */
     @Override
     protected void create(boolean stream) throws IOException {
             try
@@ -83,7 +102,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
 
     @Override
     protected void connect(InetAddress address, int port) throws IOException {
-            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.INFO, "InetAddr=" + address.toString() + ",port=" + port );
+            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.INFO, "InetAddress=" + address.toString());
 
             try
             {
@@ -97,7 +116,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
 
     @Override
     protected void connect(SocketAddress address, int timeout) throws IOException {
-            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.INFO, "SocketAddr=" + address.toString() + ",port=" + port );
+            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.INFO, "SocketAddress=" + address.toString());
             try
             {
                 this.connectSocketAddressIMPL.invoke( this.socketImpl, address, timeout);
@@ -158,15 +177,6 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
             {
                 Logger.getLogger(SocketHookImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        BufferedReader in = new BufferedReader(new InputStreamReader(new BufferedInputStream(inStream))); //send request
-        String inputLine;
-        StringBuilder html = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            html.append(inputLine);
-        }
-        in.close();
-        System.out.println(html.toString());
 
         return inStream;
     }
@@ -216,6 +226,32 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
     }
 
     @Override
+    protected void shutdownInput() throws IOException {
+        try
+        {
+            this.shutdownInputImpl.invoke( this.socketImpl);
+        }
+        catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+        {
+            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @Override
+    protected void shutdownOutput() throws IOException {
+        try
+        {
+            this.shutdownOutputImpl.invoke( this.socketImpl);
+        }
+        catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+        {
+            Logger.getLogger(SocketHookImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @Override
     protected void sendUrgentData(int data) throws IOException {
             try
             {
@@ -237,5 +273,11 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
     public Object getOption(int optID) throws SocketException {
         return this.socketImpl.getOption( optID );
     }
+
+    /**
+     * dont impl other child method now
+     * dont sure where will use it
+     **/
+
 
 }

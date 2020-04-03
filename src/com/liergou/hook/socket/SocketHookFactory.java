@@ -9,15 +9,37 @@ import java.net.SocketImplFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * @Author liergou
+ * @Description socket factory impl
+ * @Date 23:41 2020/4/3
+ * @Param
+ * @return
+ **/
 public class SocketHookFactory implements SocketImplFactory
     {
         private static SocketImpl   clazz;
         private static Boolean startHook = false;
 
+        /**
+         * @Author liergou
+         * @Description switch hook
+         * @Date 23:42 2020/4/2
+         * @Param [set]
+         * @return void
+         **/
         public static void setStart(Boolean set){
             startHook = set;
         }
 
+        /**
+         * @Author liergou
+         * @Description 初始化
+         * @Date 23:42 2020/4/2
+         * @Param []
+         * @return void
+         **/
         public static synchronized void initSocket() throws NoSuchFieldException {
             if ( clazz != null ) { return; }
 
@@ -26,9 +48,8 @@ public class SocketHookFactory implements SocketImplFactory
                 Field implField = Socket.class.getDeclaredField("impl");
                 implField.setAccessible( true );
                 clazz = (SocketImpl) implField.get(socket);
-
-            }catch (NoSuchFieldException | IllegalAccessException ignored){
-
+            }catch (NoSuchFieldException | IllegalAccessException e){
+                throw new RuntimeException("SocketHookFactory init failed!");
             }
 
             try {
