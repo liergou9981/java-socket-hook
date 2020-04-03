@@ -1,9 +1,10 @@
 # java-socks-hook
-hook socks in java
 
-怎么开启scoket hook
+##how to hook socket in java
 
-how to hook java scoket：
+### socket hook用法
+
+### how use scoket hook：
 ```
 SocketHook.starthook();
 //开启hook之后，socket都会走hook逻辑
@@ -18,11 +19,11 @@ SocketHook.stopHook();
 //the socket operation hook will cancel
 ```
 
-配置hook规则
-修改SocketHookImpl.java中socket的基础函数内部逻辑，即可实现自定义hook规则
+### 配置hook规则
+### 修改SocketHookImpl.java中socket的基础函数内部逻辑，即可实现自定义hook规则
 
-edit hook rule
-edit the socket base function logic in SocketHookImpl.java
+### edit hook rule
+### edit the socket base function logic in SocketHookImpl.java
 
 ```
     @Override
