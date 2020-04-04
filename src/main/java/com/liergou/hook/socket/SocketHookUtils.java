@@ -2,7 +2,7 @@ package com.liergou.hook.socket;
 
 import java.lang.reflect.Method;
 
-public class Utils {
+public class SocketHookUtils {
 
     /**
      * @Author liergou
