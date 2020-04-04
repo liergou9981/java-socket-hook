@@ -48,7 +48,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
      * @Param [initSocketImpl]
      * @return
      **/
-    public static void initSocketImpl(Class<?> initSocketImpl) throws IllegalAccessException {
+    public static void initSocketImpl(Class<?> initSocketImpl) {
 
         if ( initSocketImpl == null){
             SocketHookFactory.setHook(false);
@@ -56,24 +56,22 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
         }
 
         if(!isInit){
-        //cache reflect method
-        final Class<?>  clazz = initSocketImpl;
-        Method[] allMethod = clazz.getDeclaredMethods();
-        createImpl = SocketHookUtils.findMethod( clazz,"create", new Class<?>[]{ boolean.class } );
-        connectHostImpl = SocketHookUtils.findMethod( clazz, "connect", new Class<?>[]{ String.class, int.class } );
-        connectInetAddressImpl = SocketHookUtils.findMethod( clazz, "connect", new Class<?>[]{ InetAddress.class, int.class } );
-        connectSocketAddressImpl = SocketHookUtils.findMethod( clazz, "connect", new Class<?>[]{ SocketAddress.class, int.class } );
-        bindImpl = SocketHookUtils.findMethod( clazz, "bind", new Class<?>[]{ InetAddress.class, int.class } );
-        listenImpl = SocketHookUtils.findMethod( clazz, "listen", new Class<?>[]{ int.class } );
-        acceptImpl = SocketHookUtils.findMethod( clazz, "accept", new Class<?>[]{ SocketImpl.class } );
-        getInputStreamImpl = SocketHookUtils.findMethod( clazz, "getInputStream", new Class<?>[]{  } );
-        getOutputStreamImpl = SocketHookUtils.findMethod( clazz, "getOutputStream", new Class<?>[]{  } );
-        availableImpl = SocketHookUtils.findMethod( clazz, "available", new Class<?>[]{ } );
-        closeImpl = SocketHookUtils.findMethod( clazz, "close", new Class<?>[]{ } );
-        shutdownInputImpl = SocketHookUtils.findMethod( clazz, "shutdownInput", new Class<?>[]{ } );
-        shutdownOutputImpl = SocketHookUtils.findMethod( clazz, "shutdownOutput", new Class<?>[]{ } );
-        sendUrgentDataImpl = SocketHookUtils.findMethod( clazz, "sendUrgantData", new Class<?>[]{ int.class } );
-        isInit = true;
+        //need optimize performance
+            createImpl = SocketHookUtils.findMethod(initSocketImpl,"create", new Class<?>[]{ boolean.class } );
+            connectHostImpl = SocketHookUtils.findMethod(initSocketImpl, "connect", new Class<?>[]{ String.class, int.class } );
+            connectInetAddressImpl = SocketHookUtils.findMethod(initSocketImpl, "connect", new Class<?>[]{ InetAddress.class, int.class } );
+            connectSocketAddressImpl = SocketHookUtils.findMethod(initSocketImpl, "connect", new Class<?>[]{ SocketAddress.class, int.class } );
+            bindImpl = SocketHookUtils.findMethod(initSocketImpl, "bind", new Class<?>[]{ InetAddress.class, int.class } );
+            listenImpl = SocketHookUtils.findMethod(initSocketImpl, "listen", new Class<?>[]{ int.class } );
+            acceptImpl = SocketHookUtils.findMethod(initSocketImpl, "accept", new Class<?>[]{ SocketImpl.class } );
+            getInputStreamImpl = SocketHookUtils.findMethod(initSocketImpl, "getInputStream", new Class<?>[]{  } );
+            getOutputStreamImpl = SocketHookUtils.findMethod(initSocketImpl, "getOutputStream", new Class<?>[]{  } );
+            availableImpl = SocketHookUtils.findMethod(initSocketImpl, "available", new Class<?>[]{ } );
+            closeImpl = SocketHookUtils.findMethod(initSocketImpl, "close", new Class<?>[]{ } );
+            shutdownInputImpl = SocketHookUtils.findMethod(initSocketImpl, "shutdownInput", new Class<?>[]{ } );
+            shutdownOutputImpl = SocketHookUtils.findMethod(initSocketImpl, "shutdownOutput", new Class<?>[]{ } );
+            sendUrgentDataImpl = SocketHookUtils.findMethod(initSocketImpl, "sendUrgantData", new Class<?>[]{ int.class } );
+            isInit = true;
         }
     }
 
