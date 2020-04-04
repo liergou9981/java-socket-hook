@@ -54,17 +54,6 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
             SocketHookFactory.setHook(false);
             throw new RuntimeException("initSocketImpl failed; hook close!");
         }
-        /*
-        try{
-
-            Constructor con = initSocketImpl.getDeclaredConstructor();
-
-            con.setAccessible(true);
-            socketImpl = (SocketImpl) con.newInstance();
-        }catch (Exception e){
-            logger.error(e.toString());
-        }
-        */
 
         if(!isInit){
         //cache reflect method
@@ -123,7 +112,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
 
     @Override
     protected void connect(InetAddress address, int port) throws IOException {
-
+        //logger.info("connect InetAddress ："+address.toString());
             try
             {
                 connectInetAddressImpl.invoke( socketImpl, address, port);
@@ -138,7 +127,7 @@ public class SocketHookImpl extends SocketImpl implements SocketOptions
     @Override
     protected void connect(SocketAddress address, int timeout) throws IOException {
 
-            //logger.info("connect SocketAddress ："+address.toString());
+        //logger.info("connect SocketAddress ："+address.toString());
 
             try
             {
